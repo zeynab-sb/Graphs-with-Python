@@ -1,10 +1,11 @@
 import pandas as pd
 import networkx
 
+#Load data
 data = pd.read_csv('./soc-sign-bitcoinotc.csv', names=['Source','Destination','Weight', 'Time'], usecols=[0,1,2])
 print(data)
 
-
+#Adjency matrix
 edgeList = data.values.tolist()
 print(edgeList[0][0], edgeList[0][1], edgeList[0][2])
 G = networkx.DiGraph()
