@@ -1,4 +1,5 @@
 import pandas as pd
+import plotly.graph_objects as go
 import networkx
 
 #Load data
@@ -22,8 +23,20 @@ print("##################################")
 
 
 
-degrees = [val for (node, val) in G.degree()]
+nodes = sorted(list(G.nodes))
 
 print("######### Degrees #########")
-print(degrees)
+i = 0
+degree_x = []
+node_y = []
+for node in nodes:
+    degree_x.append(G.degree[int(node)])
+    node_y.append(node)
+    print("Node " + str(node_y[i]) + " - Degree: " + str(degree_x[i]))
+    i = i + 1
 print("###########################")
+
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=degree_x, y=node_y))
+
+fig.show()
