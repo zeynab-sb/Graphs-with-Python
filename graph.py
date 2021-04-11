@@ -25,6 +25,7 @@ print("##################################")
 
 nodes = sorted(list(G.nodes))
 
+#Degrees
 print("######### Degrees #########")
 i = 0
 degree_x = []
@@ -36,7 +37,49 @@ for node in nodes:
     i = i + 1
 print("###########################")
 
+#Degree chart
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=degree_x, y=node_y))
 
 fig.show()
+
+#Avg of neighbours degrees
+avg_degree_x = []
+avg_node_y = []
+print("######### Avg degrees of neighbours #########")
+for node in list(nodes):
+    sumOfDegree = 0
+    numberOfNeighbours = 0
+    avg_node_y.append(node)
+
+    for neighbour in list(G.neighbors(node)):
+        numberOfNeighbours = numberOfNeighbours + 1
+        sumOfDegree = sumOfDegree + G.degree(neighbour)
+    if(numberOfNeighbours!=0):
+        avgDegreeNeighbour = sumOfDegree/numberOfNeighbours
+    else:
+        avgDegreeNeighbour = 0
+
+    avg_degree_x.append(avgDegreeNeighbour)
+    print(f'Node {node} - Avg Degrees of neighbours: {avgDegreeNeighbour}')         
+print("#############################################")
+
+#Avg of neighbours degrees chart
+fig2 = go.Figure()
+fig2.add_trace(go.Scatter(x=avg_degree_x, y=avg_node_y))
+
+fig2.show()
+
+#Common neighbours of x
+def findAvgOfCommonNeighbours(x):
+    numberOfCommonNeighbours = 0;
+    numberOfNeighbours = 0;
+    for neighbour in list(G.neighbors(x)):
+        numberOfNeighbours = numberOfNeighbours + 1
+        commonNeighbour = sorted(networkx.common_neighbors(G, x, neighbour))
+        print(f'Node {x} has {commonNeighbour} in common with neighbour {neighbour}')
+        numberOfCommonNeighbours = numberOfCommonNeighbours + len(commonNeighbour)
+    if(numberOfNeighbours!=0):
+        print(f'Avg of common neighbours is {numberOfCommonNeighbours/numberOfNeighbours}')    
+
+findAvgOfCommonNeighbours(5995)
