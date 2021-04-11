@@ -25,5 +25,5 @@ print("##################################")
 degrees = [val for (node, val) in G.degree()]
 
 print("######### Degrees #########")
-print(A)
+print(degrees)
 print("###########################")
