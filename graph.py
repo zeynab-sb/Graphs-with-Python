@@ -16,3 +16,4 @@ print(G)
 A = networkx.adjacency_matrix(G).A
 
 print(A)
+
