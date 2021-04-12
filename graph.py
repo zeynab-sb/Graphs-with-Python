@@ -30,8 +30,8 @@ nodes_y = []
 degrees_x= []
 i=0
 for node in A:
-    i= i +1 
     nodes_y.append(i)
+    i= i +1 
     degree = 0
     for val in node:
         if val!=0 :
@@ -45,3 +45,33 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(x=degrees_x, y=nodes_y))
 
 fig.show()
+
+#Avg of neighbours degrees
+avg_degree_x = []
+avg_node_y = []
+i = 0;
+print("######### Avg degrees of neighbours #########")
+for node in A:
+    sumOfDegree = 0
+    numberOfNeighbours = 0
+    avgDegreeNeighbour = 0
+    avg_node_y.append(i)
+    i = i + 1
+    col = 0
+    for y in node:
+        if(y!=0):
+            sumOfDegree = sumOfDegree + degrees_x[col]
+            numberOfNeighbours = numberOfNeighbours + 1
+        col = col + 1    
+    if(numberOfNeighbours!=0):
+        avgDegreeNeighbour = sumOfDegree / numberOfNeighbours
+        avg_degree_x.append(avgDegreeNeighbour)
+    print(f'Node {i} - Avg Degrees of neighbours: {avgDegreeNeighbour}')         
+print("#############################################")
+
+#Avg of neighbours degrees chart
+fig2 = go.Figure()
+fig2.add_trace(go.Scatter(x=avg_degree_x, y=avg_node_y))
+
+fig2.show()
+
