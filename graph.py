@@ -110,7 +110,7 @@ def dijkstra(src , graph , V):
 
     return dist
 
-
+#####
 number_of_nodes = int(len(nodes_y)*(1/1000))
 random_nodes = sample((list(nodes_y)),number_of_nodes)
 
@@ -120,11 +120,57 @@ for node in random_nodes:
     dist = dijkstra(node,A,len(nodes_y))
     for d in dist:
         avgPath = avgPath + d
-    total_avg.append(avgPath)
-    print(f'Node {node} - Avg of paths: {avgPath}')  
+    total_avg.append(avgPath/len(dist))
+    print(f'Node {node} - Avg of paths: {avgPath/len(dist)}')  
 
 #Avg of shortest paths chart
 fig3 = go.Figure()
 fig3.add_trace(go.Scatter(x=total_avg, y=random_nodes))
 
 fig3.show()    
+
+#Avg of common neighbours
+
+def findNeighbour(node, A):
+    i = 0
+    neighbours = []
+    for col in A[node]:
+        if(col != 0):
+            neighbours.append(i)
+        i = i +1
+    return neighbours 
+print("######### Avg of common neighbours #########")
+def findAvgOfCommonNeighbours(x, A):
+    
+    x_neighbours = findNeighbour(x, A)
+    sum_common = 0
+    number = 0
+    avg = 0
+    for neighbour in x_neighbours:
+        n_neighbours = findNeighbour(neighbour, A)
+        common = np.intersect1d(x_neighbours, n_neighbours)
+        sum_common = sum_common + len(common)
+        number = number + 1
+        print(f'Node {x} - Common neighbours with - {neighbour}: Size: {len(common)} and {common}')
+
+    if(number!=0):
+        avg = sum_common/number 
+    return avg     
+
+avg_common_node_y = []
+avg_common_x = []
+k = 0
+for node in nodes_y:
+    avg_common_node_y.append(k)
+    k = k +1
+    avg = findAvgOfCommonNeighbours(node,A)
+    avg_common_x.append(avg)
+    print(f'Node {k} - Avg common neighbours is: {avg}')
+print("############################################")
+
+
+#Avg of common neighbours chart
+fig4 = go.Figure()
+fig4.add_trace(go.Scatter(x=avg_common_x, y=avg_common_node_y))
+
+fig4.show()
