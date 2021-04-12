@@ -2,6 +2,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import networkx
 import numpy as np
+inf = float("inf")
+import sys
+from random import sample
+
 
 #Load data
 data = pd.read_csv('./soc-sign-bitcoinotc.csv', names=['Source','Destination','Weight', 'Time'], usecols=[0,1,2])
@@ -75,3 +79,52 @@ fig2.add_trace(go.Scatter(x=avg_degree_x, y=avg_node_y))
 
 fig2.show()
 
+#Avg of shortest paths
+print("######### Avg of shortest paths #########")
+def minDistance(dist, sptSet , V):
+    V = len(nodes_y)
+    min = sys.maxsize
+    min_index=0
+    for v in range(V):
+        if dist[v] < min and sptSet[v] == False:
+            min = dist[v]
+            min_index = v
+
+    return min_index
+
+def dijkstra(src , graph , V):
+    
+    dist = [sys.maxsize] * V
+    dist[src] = 0
+    sptSet = [False] * V
+
+    for cout in range(V):
+
+        u = minDistance(dist, sptSet ,V)
+
+        sptSet[u] = True
+
+        for v in range(V):
+            if graph[u][v] > 0 and sptSet[v] == False and dist[v] > dist[u] + graph[u][v]:
+                dist[v] = dist[u] + graph[u][v]
+
+    return dist
+
+
+number_of_nodes = int(len(nodes_y)*(1/1000))
+random_nodes = sample((list(nodes_y)),number_of_nodes)
+
+avgPath = 0
+total_avg = []
+for node in random_nodes:
+    dist = dijkstra(node,A,len(nodes_y))
+    for d in dist:
+        avgPath = avgPath + d
+    total_avg.append(avgPath)
+    print(f'Node {node} - Avg of paths: {avgPath}')  
+
+#Avg of shortest paths chart
+fig3 = go.Figure()
+fig3.add_trace(go.Scatter(x=total_avg, y=random_nodes))
+
+fig3.show()    
