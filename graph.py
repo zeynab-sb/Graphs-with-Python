@@ -45,21 +45,23 @@ for node in A:
 print("###########################")
 
 #Degree chart
+np_array_degree = np.array(degrees_x)
+uniqueDegree ,count = np.unique(np_array_degree , return_counts=True)
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=degrees_x, y=nodes_y))
+fig.add_trace(go.Scatter(x=uniqueDegree, y=count))
 
 fig.show()
 
 #Avg of neighbours degrees
-avg_degree_x = []
-avg_node_y = []
+avg_degree_y = []
+avg_node_x = []
 i = 0;
 print("######### Avg degrees of neighbours #########")
 for node in A:
     sumOfDegree = 0
     numberOfNeighbours = 0
     avgDegreeNeighbour = 0
-    avg_node_y.append(i)
+    avg_node_x.append(i)
     i = i + 1
     col = 0
     for y in node:
@@ -69,13 +71,13 @@ for node in A:
         col = col + 1    
     if(numberOfNeighbours!=0):
         avgDegreeNeighbour = sumOfDegree / numberOfNeighbours
-        avg_degree_x.append(avgDegreeNeighbour)
+        avg_degree_y.append(avgDegreeNeighbour)
     print(f'Node {i} - Avg Degrees of neighbours: {avgDegreeNeighbour}')         
 print("#############################################")
 
 #Avg of neighbours degrees chart
 fig2 = go.Figure()
-fig2.add_trace(go.Scatter(x=avg_degree_x, y=avg_node_y))
+fig2.add_trace(go.Scatter(x=avg_node_x, y=avg_degree_y))
 
 fig2.show()
 
@@ -125,7 +127,7 @@ for node in random_nodes:
 
 #Avg of shortest paths chart
 fig3 = go.Figure()
-fig3.add_trace(go.Scatter(x=total_avg, y=random_nodes))
+fig3.add_trace(go.Scatter(x=random_nodes, y=total_avg))
 
 fig3.show()    
 
@@ -157,20 +159,20 @@ def findAvgOfCommonNeighbours(x, A):
         avg = sum_common/number 
     return avg     
 
-avg_common_node_y = []
-avg_common_x = []
+avg_common_node_x = []
+avg_common_y = []
 k = 0
 for node in nodes_y:
-    avg_common_node_y.append(k)
+    avg_common_node_x.append(k)
     k = k +1
     avg = findAvgOfCommonNeighbours(node,A)
-    avg_common_x.append(avg)
+    avg_common_y.append(avg)
     print(f'Node {k} - Avg common neighbours is: {avg}')
 print("############################################")
 
 
 #Avg of common neighbours chart
 fig4 = go.Figure()
-fig4.add_trace(go.Scatter(x=avg_common_x, y=avg_common_node_y))
+fig4.add_trace(go.Scatter(x=avg_common_node_x, y=avg_common_y))
 
 fig4.show()
