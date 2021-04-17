@@ -20,8 +20,8 @@ for i in range(len(edgeList)):
 
 
 s = set()
-iteration_x = []
-per_y = []
+iteration_y = []
+per_x = []
 
 
 def propagate(node, iteration):
@@ -47,8 +47,8 @@ def propagate(node, iteration):
         else:
             print("***************************************************************************************")
             print(f'Iteration {iteration} -- Percentage of colored nodes: {new_per}')
-            iteration_x.append(iteration)
-            per_y.append(new_per)
+            iteration_y.append(iteration)
+            per_x.append(new_per)
             if(new_per == 100.0):
                 print(
                     f'After k = {iteration} iterations all the nodes are red.')
@@ -60,13 +60,13 @@ def propagate(node, iteration):
 start_node = random.sample(set(list(Graph.nodes())), 1)[0]
 propagate(start_node, 0)
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=per_y, y=iteration_x))
+fig.add_trace(go.Scatter(x=per_x, y=iteration_y))
 
 v = sorted(Graph.degree, key=lambda x: x[1], reverse=True)
 print(f'The node with maximum degree is: {v[0][0]}')
 s.clear()
-iteration_x.clear()
-per_y.clear()
+iteration_y.clear()
+per_x.clear()
 propagate(v[0][0], 0)
-fig.add_trace(go.Scatter(x=per_y, y=iteration_x))
+fig.add_trace(go.Scatter(x=per_x, y=iteration_y))
 fig.show()
