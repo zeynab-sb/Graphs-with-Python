@@ -42,7 +42,6 @@ def propagate(node, iteration):
 
         new_per = (len(s)/(Graph.number_of_nodes())) * 100
         if(old_per == new_per):
-            difference = []
             start_node = random.sample(set(list(Graph.nodes())) - s, 1)[0]
             propagate(start_node, iteration)
         else:
