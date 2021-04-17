@@ -40,15 +40,14 @@ def propagate(node, Graph, iteration):
         ready_to_color.clear()
         ready_to_color = set(neighbors)
 
-        print("***************************************************************************************")
         new_per = (len(s)/(Graph.number_of_nodes())) * 100
         if(old_per == new_per):
             difference = []
             start_node = random.sample(set(list(Graph.nodes())) - s, 1)[0]
             propagate(start_node, Graph, iteration)
         else:
-            print(
-                f'Iteration {iteration} -- Percentage of colored nodes: {new_per}')
+            print("***************************************************************************************")
+            print(f'Iteration {iteration} -- Percentage of colored nodes: {new_per}')
             iteration_x.append(iteration)
             per_y.append(new_per)
             if(new_per == 100.0):
