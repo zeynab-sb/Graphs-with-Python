@@ -52,6 +52,7 @@ def propagate(node, iteration):
             if(new_per == 100.0):
                 print(
                     f'After k = {iteration} iterations all the nodes are red.')
+                break    
             iteration = iteration + 1
             old_per = new_per
 
