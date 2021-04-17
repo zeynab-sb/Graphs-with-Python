@@ -60,7 +60,7 @@ def propagate(node, iteration):
 start_node = random.sample(set(list(Graph.nodes())), 1)[0]
 propagate(start_node, 0)
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=iteration_x, y=per_y))
+fig.add_trace(go.Scatter(x=per_y, y=iteration_x))
 
 v = sorted(Graph.degree, key=lambda x: x[1], reverse=True)
 print(f'The node with maximum degree is: {v[0][0]}')
@@ -68,5 +68,5 @@ s.clear()
 iteration_x.clear()
 per_y.clear()
 propagate(v[0][0], 0)
-fig.add_trace(go.Scatter(x=iteration_x, y=per_y))
+fig.add_trace(go.Scatter(x=per_y, y=iteration_x))
 fig.show()
