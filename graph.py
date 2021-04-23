@@ -177,10 +177,10 @@ avg_common_y = []
 k = 0
 for node in nodes_y:
     avg_common_node_x.append(k)
-    k = k + 1
     avg = findAvgOfCommonNeighbours(node, A)
     avg_common_y.append(avg)
     print(f'Node {k} - Avg common neighbours is: {avg}')
+    k = k + 1
 print("############################################")
 
 
