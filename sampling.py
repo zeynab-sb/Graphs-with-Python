@@ -32,14 +32,13 @@ def random_edge_sampling(graph, k):
         edges_sample = random.sample(graph.edges(), 1)
         # Randomly samples one edge from a graph at a time
         for a1, a2 in edges_sample:
-            # Nodes corresponding to sample edge are retrieved and added in Graph G1
+            # Nodes corresponding to sample edge are retrieved and added in new Graph
             sample.add_edge(a1, a2)
             if (a1 not in Vs):
                 Vs.append(a1)
             if (a2 not in Vs):
                 Vs.append(a2)
-    # Statement written just to have a check of a program
-
+  
     for x in sample.nodes():
         neigh = (set(sample.nodes()) & set(list(graph.neighbors(x))))
         # Check neighbours of sample node and if the nodes are their in sampled set then edge is included between them.
