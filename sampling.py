@@ -21,28 +21,22 @@ def random_node_sampling(graph, k):
 
 
 def random_edge_sampling(graph, k):
-    Vs = []
-    # Empty list Vs
+    Vertices = []
     sample = networkx.DiGraph()
 
-    while (len(Vs) <= k):
+    while (len(Vertices) <= k):
         edges_sample = random.sample(graph.edges(), 1)
-        # Randomly samples one edge from a graph at a time
         for a1, a2 in edges_sample:
-            # Nodes corresponding to sample edge are retrieved and added in new Graph
             sample.add_edge(a1, a2)
-            if (a1 not in Vs):
-                Vs.append(a1)
-            if (a2 not in Vs):
-                Vs.append(a2)
+            if (a1 not in Vertices):
+                Vertices.append(a1)
+            if (a2 not in Vertices):
+                Vertices.append(a2)
   
     for x in sample.nodes():
-        neigh = (set(sample.nodes()) & set(list(graph.neighbors(x))))
-        # Check neighbours of sample node and if the nodes are their in sampled set then edge is included between them.
-        for y in neigh:
-            # Check for every node's neighbour in sample set of nodes
+        neighbors = (set(sample.nodes()) & set(list(graph.neighbors(x))))
+        for y in neighbors:
             sample.add_edge(x, y)
-            # Add edge between the sampled nodes
     return sample
 
 
