@@ -21,14 +21,11 @@ def random_node_sampling(graph, k):
 
 
 def random_edge_sampling(graph, k):
-    V = graph.nodes()
-    # Calculate number of nodes in Graph graph
     Vs = []
     # Empty list Vs
     sample = networkx.DiGraph()
 
     while (len(Vs) <= k):
-        # Loops run till sample size * length of V where V is number of nodes in graph as calculated above.
         edges_sample = random.sample(graph.edges(), 1)
         # Randomly samples one edge from a graph at a time
         for a1, a2 in edges_sample:
