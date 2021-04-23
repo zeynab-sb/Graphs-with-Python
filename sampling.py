@@ -1,5 +1,5 @@
 import pandas as pd
-import plotly.graph_objects as go
+import plotly.express as px
 import networkx
 import numpy as np
 import random
@@ -99,15 +99,15 @@ Graph = networkx.from_pandas_edgelist(
     data, source='Source', target='Destination', edge_attr='Weight')
 
 
-# Graph_1 = random_node_sampling(Graph, K)
+Graph_1 = random_node_sampling(Graph, K)
 
-# networkx.draw(Graph_1, with_labels=True)
-# matplotlib.pyplot.savefig("random_node_graph.png")
+networkx.draw(Graph_1, with_labels=True)
+matplotlib.pyplot.savefig("random_node_graph.png")
 
-# Graph_2 = random_edge_sampling(Graph, K)
+Graph_2 = random_edge_sampling(Graph, K)
 
-# networkx.draw(Graph_2, with_labels=True)
-# matplotlib.pyplot.savefig("random_edge_graph.png")
+networkx.draw(Graph_2, with_labels=True)
+matplotlib.pyplot.savefig("random_edge_graph.png")
 
 growth_size = 2
 T = 100
@@ -118,29 +118,66 @@ networkx.draw(Graph_3, with_labels=True)
 matplotlib.pyplot.savefig("random_walk_graph.png")
 
 
-def important_nodes(graph, N):
+def important_nodes(graph):
     # Degree Centrality
     nodes_1 = networkx.degree_centrality(Graph)
-    print(max(nodes_1, key=nodes_1.get))
     nodes_degree_centrality = sorted(
-        nodes_1, key=nodes_1.get, reverse=True)[:N]
-    print(nodes_degree_centrality)
+        nodes_1, key=nodes_1.get, reverse=True)[:50]
+    # print(nodes_degree_centrality)
 
     # Eigenvector Centrality
     nodes_2 = networkx.eigenvector_centrality(Graph)
     nodes_eigenvector_centrality = sorted(
-        nodes_2, key=nodes_2.get, reverse=True)[:N]
-    print(nodes_eigenvector_centrality)
+        nodes_2, key=nodes_2.get, reverse=True)[:50]
+    # print(nodes_eigenvector_centrality)
 
     # Betweenness Centrality
     nodes_3 = networkx.betweenness_centrality(
         Graph, normalized=False, endpoints=True)
     nodes_betweenness_centrality = sorted(
-        nodes_3, key=nodes_3.get, reverse=True)[:30]
-    print(nodes_betweenness_centrality)
+        nodes_3, key=nodes_3.get, reverse=True)[:50]
+    # print(nodes_betweenness_centrality)
+
+    nodes = list(set(nodes_degree_centrality) | set(
+        nodes_eigenvector_centrality) | set(nodes_betweenness_centrality))
+
+    return nodes
 
 
-N = 30
+print("###############################")
+main_graph_nodes = important_nodes(Graph)
+print(f'Main Graph Important Nodes : {main_graph_nodes}')
+print("###############################")
 
-# print(important_nodes(Graph_1, N))
-important_nodes(Graph_3, N)
+node_sample_graph_nodes = important_nodes(Graph_1)
+common_node_sample = list(set(main_graph_nodes) & set(node_sample_graph_nodes))
+print(f'Node Sample Graph Important Nodes : {node_sample_graph_nodes}')
+print(f'Number of Common Nodes: { len(common_node_sample) }')
+print("###############################")
+
+edge_sample_graph_nodes = important_nodes(Graph_2)
+common_edge_sample = list(set(main_graph_nodes) & set(edge_sample_graph_nodes))
+print(f'Edge Sample Graph Important Nodes : {edge_sample_graph_nodes}')
+print(f'Number of Common Nodes: { len(common_edge_sample) }')
+print("###############################")
+
+random_walk_graph_nodes = important_nodes(Graph_3)
+common_random_walk = list(set(main_graph_nodes) & set(random_walk_graph_nodes))
+print(f'Random Walk Graph Important Nodes : {random_walk_graph_nodes}')
+print(f'Number of Common Nodes: {len(common_random_walk)}')
+print("###############################")
+
+
+y = []
+y.append(len(common_random_walk))
+y.append(len(common_edge_sample))
+y.append(len(common_node_sample))
+
+x = []
+x.append('Random Walk')
+x.append('Edge Sample')
+x.append('Node Sample')
+
+figure = px.bar(x, y=y)
+
+figure.show()
